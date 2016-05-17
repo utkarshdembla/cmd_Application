@@ -13,8 +13,8 @@ public class App
     {
     	try{
     	
-    	char ex='\n';
-    
+    	//char ex='\n';
+    		char ex='\n';
    while(JDBC_utilities.createDBConnection())
    {
 	   Scanner sc = new Scanner(System.in);
