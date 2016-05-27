@@ -2,6 +2,8 @@ package Maven.cmd_application;
 
 import java.util.*;
 
+import com.eric.test.app.JPA.services.MainTest;
+import com.eric.test.app.security.Crypt;
 import com.eric.test.app.utilities.JDBC_utilities;
 
 import java.sql.*;
@@ -9,79 +11,91 @@ import java.sql.*;
 public class Functionalities{
 	
 		JDBC_utilities j=new JDBC_utilities();
+		MainTest m=new MainTest();
+		Crypt crypt=new Crypt();
+		
 		Scanner sc= new Scanner(System.in);
-		int UserId;
-	    String FirstName;
-	    String LastName;
+		int userid;
+	    String firstname;
+	    String lastname;
 	    String username;
 	    String email;
-	    long PhoneNumber;
-	    char[] password= new char[20];
+	    String phonenumber;
+	    String password;
 	    String pass="\n";
 	    char input='\n';
 	  
 	public void create() throws SQLException
 	{  
-	 System.out.println("Enter UserId:");
-   	 UserId= sc.nextInt();
+	// System.out.println("Enter UserId:");
+   	//UserId= sc.nextInt();
    	 	
    	 System.out.println("Enter Firstname:");
-	 FirstName= sc.next();
+	 firstname= sc.next();
 	 
 	 System.out.println("Enter LastName:");
-	 LastName= sc.next();
+	 lastname= sc.next();
 	 
 	 System.out.println("Enter username:");
 	 username= sc.next();
 	 
 	 System.out.println("Enter Password:");
-	 password= sc.next().toCharArray();			
+	 password= sc.next();			
 	
-	 pass=password.toString();
+	// pass=password.toString();
+	// String p=crypt.encrypt(password);
+	// System.out.println(p);
+	 
+	 
 	
 	 System.out.println("Enter email:");
 	 email= sc.next();
 	 
 	 System.out.println("Enter phonenumber");
-	 PhoneNumber= sc.nextLong();
+	 phonenumber= sc.next();
 	
-	 String sql= "insert into cmd"
-				+"(UserId,FirstName,LastName,username,email,password,phonennumber)"
-			    +"values('"+UserId+"','"+FirstName+"','"+LastName+"','"+username+"','"+email+"','"+pass+"','"+PhoneNumber+"')";
+	 m.createUser(firstname,lastname,username,password,email,phonenumber);
 	 
-	 j.createData(sql);
+//	 String sql= "insert into cmd"
+//				+"(UserId,FirstName,LastName,username,email,password,phonennumber)"
+//			    +"values('"+UserId+"','"+FirstName+"','"+LastName+"','"+username+"','"+email+"','"+p+"','"+PhoneNumber+"')";
+	 
+//	 j.createData(sql);
 	
 	}
 	
 	public void retrieve() throws SQLException{
 		 
 		 System.out.println("Enter UserId");
-		 UserId=sc.nextInt();            
+		 userid=sc.nextInt();            
 		 
-		 String sql="select * from cmd where UserId='"+UserId+"'";
-		 ResultSet rs=j.retrieveData(sql);
-		 
-		 if(rs.absolute(1)) 
-		 {
-			 System.out.println(rs.getString("UserId")+","+rs.getString("FirstName")+","+rs.getString("LastName")+","+rs.getString("username")+","+rs.getString("email")+","+rs.getString("password")+","+rs.getString("phonennumber"));
-         }
-		 else
-		 {
-			 System.out.println("No user exists with userid"+UserId);	
-		 }
+		 //String sql="select * from cmd where UserId='"+UserId+"'";
+		
+		 //ResultSet rs=j.retrieveData(sql);
+		
+	//	 if(rs.absolute(1)) 
+		// {
+			// System.out.println(rs.getString("UserId")+","+rs.getString("FirstName")+","+rs.getString("LastName")+","+rs.getString("username")+","+rs.getString("email")+","+crypt.encrypt(rs.getString("password"))+","+rs.getString("phonennumber"));
+         //}
+		 //else
+		 //{
+			// System.out.println("No user exists with userid"+UserId);	
+		 //}
 	
+		 m.retrieveUser(userid);
 }
 
 	
 	public void update() throws SQLException{
 		String sql="";
 	System.out.println("Enter the UserId");
-	UserId=sc.nextInt();
+	userid=sc.nextInt();
 	
+	m.updateUser(userid);
+	/*
 	int n;		
 	System.out.println("Enter the option which you want to select");
 	n=sc.nextInt();		
-			
 	
 		switch(n)
 		{
@@ -106,13 +120,14 @@ public class Functionalities{
          break;
          
 		 case 5: 	 System.out.println("Enter password:");
-         password= sc.next().toCharArray();	        
+         
+    	 password= sc.next();			        
          pass=password.toString();
          sql="UPDATE cmd SET password='"+pass+"' where UserId='"+UserId+"'";
          break;
          
 		 case 6: 	 System.out.println("Enter phonenumber:");
-         PhoneNumber= sc.nextLong();
+         PhoneNumber= sc.next();
          sql="UPDATE cmd SET phonennumber='"+PhoneNumber+"' where UserId='"+UserId+"'";
          break;
          
@@ -120,14 +135,19 @@ public class Functionalities{
 		}
 		
 		j.updateData(sql);
+		
+		*/
 	}
 
 
 public void delete() throws SQLException {
 	 
 	  System.out.println("Enter the UserId:");
-	  UserId=sc.nextInt();
-	  String sql1="select * from cmd where UserId='"+UserId+"'";
+	  userid=sc.nextInt();
+	  m.deleteUser(userid);
+	
+	  
+	  /* String sql1="select * from cmd where UserId='"+UserId+"'";
 		 ResultSet rs=j.retrieveData(sql1);
 		 if(rs.absolute(1))
 		 {
@@ -137,5 +157,6 @@ public void delete() throws SQLException {
 		 else{
 			 System.out.println("Invalid UserId"+UserId);
 		 }
+*/
 }
 	}
